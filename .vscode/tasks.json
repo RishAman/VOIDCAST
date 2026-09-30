@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "VOIDCAST: Build",
+      "type": "process",
+      "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+      "args": [
+        "-std=c11", "-O2", "-g", "-Wall", "-Wextra", "-Wpedantic",
+        "src/main.c", "src/game.c", "src/render.c", "src/platform_win.c", "src/tests.c",
+        "-o", "voidcast.exe", "-lm", "-lgdi32", "-luser32"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "silent", "panel": "shared" }
+    },
+    {
+      "label": "VOIDCAST: Build & Play",
+      "type": "process",
+      "command": "${workspaceFolder}\\voidcast.exe",
+      "args": ["--window"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "dependsOn": "VOIDCAST: Build",
+      "dependsOrder": "sequence",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent", "panel": "shared" }
+    },
+    {
+      "label": "VOIDCAST: Test",
+      "type": "process",
+      "command": "${workspaceFolder}\\voidcast.exe",
+      "args": ["--self-test"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "dependsOn": "VOIDCAST: Build",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "VOIDCAST: Play in VS Code terminal",
+      "type": "process",
+      "command": "${workspaceFolder}\\voidcast.exe",
+      "options": { "cwd": "${workspaceFolder}" },
+      "dependsOn": "VOIDCAST: Build",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "focus": true }
+    }
+  ]
+}
