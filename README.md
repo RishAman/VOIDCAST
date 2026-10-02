@@ -1,87 +1,73 @@
 # VOIDCAST
 
-เกมสำรวจเขาวงกต 3D แบบ ASCII เขียนด้วย **C11 ล้วน** สำหรับ Windows
-ใช้ raycasting วาดภาพด้วยตัวอักษรและสีใน Terminal ไม่มี game engine หรือไลบรารีภายนอก
+VOIDCAST is a 3D-style ASCII maze exploration game for Windows, written entirely in **C11**. It uses raycasting to draw the world with characters and color in a terminal, without a game engine or external libraries.
 
-เก็บ **แกนพลังงานสีฟ้า 3 ชิ้น** แล้วเดินเข้าประตูสีม่วงก่อนหมดเวลา
-ศัตรูสีแดงจะตามคุณผ่านทางเดิน ใช้คลื่นพลังงานผลักและหยุดมันชั่วคราว
+Collect **three cyan energy cores** and reach the magenta extraction gate before time runs out. Red sentinels pursue you through the corridors; use an energy pulse to knock them back and stun them temporarily.
 
-## เปิดเล่นใน VS Code
+## Play in VS Code
 
-1. เปิดโฟลเดอร์ `C project` นี้ใน VS Code
-2. กด **Ctrl+Shift+B** เพื่อใช้ task `VOIDCAST: Build & Play`
-3. เกมจะเปิดในหน้าต่าง Terminal แยก กด **Enter** เพื่อเริ่ม
-4. ใช้คีย์บอร์ดภาษาอังกฤษ และคลิกหน้าต่างเกมก่อนควบคุม
+1. Open this `C project` folder in VS Code.
+2. Press **Ctrl+Shift+B** to run the `VOIDCAST: Build & Play` task.
+3. The game should open in a separate terminal window. Press **Enter** to start.
+4. Use an English keyboard layout, and click the game window before using the controls.
 
-ตั้งค่า compiler ของเครื่องนี้ไว้แล้ว: `C:\msys64\ucrt64\bin\gcc.exe`
-หากย้ายไปเครื่องอื่น ให้แก้ path ใน `.vscode/tasks.json` และ `.vscode/c_cpp_properties.json`
-ไฟล์ JSON เป็นเพียงการตั้งค่า editor; โค้ดโปรแกรมและชุดทดสอบทั้งหมดเป็น `.c` / `.h`
+The compiler path is configured for the original development machine: `C:\msys64\ucrt64\bin\gcc.exe`. On another machine, update the paths in `.vscode/tasks.json` and `.vscode/c_cpp_properties.json`. These JSON files configure the editor only; all game and test code is in `.c` and `.h` files.
 
-แนะนำขนาด Terminal **128 คอลัมน์ × 42 แถว** ขึ้นไป ถ้าขึ้น `TERMINAL TOO SMALL`
-ให้ขยายหน้าต่างหรือลดขนาดฟอนต์ ตัวเกมจะหยุดนับเวลาขณะที่หน้าต่างเล็กเกินไป
-ปิดหน้าต่างเกมเดิมก่อนคอมไพล์ใหม่ เพราะ Windows ล็อกไฟล์ `.exe` ขณะทำงาน
-โปรเจกต์นี้มีหลายไฟล์ จึงใช้ task ที่ให้ไว้เพื่อคอมไพล์ทุกไฟล์เข้าด้วยกัน
+A terminal of at least **128 columns × 42 rows** is recommended. If the game displays `TERMINAL TOO SMALL`, enlarge the window or reduce the font size. The game timer pauses while the terminal is too small. Close an existing game window before rebuilding because Windows locks a running `.exe`. This project has multiple source files, so use the supplied task to compile them together.
 
-มี task `VOIDCAST: Play in VS Code terminal` สำหรับเล่นใน Terminal ภายใน VS Code ด้วย
-กด `Ctrl+Shift+P` > `Tasks: Run Task` แล้วเลือก task นี้ และขยายแผง Terminal ให้สูงพอ
-การเดินใน Terminal ภายในอาจมีช่วงเว้นเมื่อเริ่มกดค้างตาม key repeat ของระบบ
-หน้าต่างแยกที่เปิดจาก `Ctrl+Shift+B` ใช้การอ่านสถานะปุ่มเพื่อให้กดค้างเดินได้ลื่นกว่า
+To play inside VS Code instead, press **Ctrl+Shift+P**, choose `Tasks: Run Task`, then select `VOIDCAST: Play in VS Code terminal`. Expand the terminal panel enough to fit the game. Holding a movement key in the integrated terminal may briefly pause because of the system's key-repeat delay; the separate window opened by `Ctrl+Shift+B` reads key states for smoother movement. If a separate window does not appear, the integrated-terminal task is a useful fallback.
 
-## ปุ่มควบคุม
+## Controls
 
-| ปุ่ม | การทำงาน |
+| Key | Action |
 |---|---|
-| W / S หรือ ลูกศรขึ้น / ลง | เดินหน้า / ถอยหลัง |
-| A / D หรือ ลูกศรซ้าย / ขวา | หมุนมุมมอง |
-| Q / E | เดินข้างซ้าย / ขวา |
-| Shift ค้างพร้อมเดิน | วิ่ง |
-| Space | คลื่นพลังงาน: ผลักศัตรูที่มองเห็นในระยะ 5 ช่อง และหยุด 3 วินาที |
-| Tab หรือ M | เปิด / ปิดแผนที่ |
-| P หรือ Esc | หยุด / เล่นต่อ |
-| R | เริ่มแผนที่เดิมใหม่ |
-| N | เริ่มแผนที่ใหม่ |
-| X | ออกจากเกม |
+| W / S or Up / Down arrows | Move forward / backward |
+| A / D or Left / Right arrows | Turn |
+| Q / E | Strafe left / right |
+| Hold Shift while moving | Sprint |
+| Space | Energy pulse: knock back visible enemies within 5 cells and stun them for 3 seconds |
+| Tab or M | Toggle the map |
+| P or Esc | Pause / resume |
+| R | Restart the same maze |
+| N | Start a new maze |
+| X | Quit |
 
-## กติกา
+## Rules
 
-- เริ่มด้วยพลังชีวิต 100 และเวลา 4 นาที
-- `*` สีฟ้าบนแผนที่คือแกนพลังงาน เดินเข้าใกล้เพื่อเก็บอัตโนมัติ
-- แต่ละแกนเพิ่มพลังชีวิต 15 (ไม่เกิน 100) และเวลา 15 วินาที
-- `E` คือประตูทางออก ซึ่งจะเปลี่ยนเป็นสีเขียวเมื่อเก็บครบ 3 แกน
-- `X` สีแดงคือศัตรู เมื่อเข้าใกล้จะเสียพลังชีวิต 14 ต่อครั้ง
-- คลื่นพลังงานใช้ซ้ำได้ทุก 7 วินาที และไม่ทะลุกำแพง
-- พื้นที่แผนที่จะเปิดเผยระหว่างสำรวจ แต่ตำแหน่งแกนพลังงานและประตูแสดงตั้งแต่เริ่ม
-- เลข seed ที่มุมจอใช้สร้างแผนที่เดิมซ้ำได้
+- You start with 100 health and four minutes.
+- A cyan `*` on the map marks an energy core. Walk close to it to collect it automatically.
+- Each core restores 15 health (up to 100) and adds 15 seconds.
+- `E` marks the extraction gate; it turns green after you collect all three cores.
+- A red `X` marks a sentinel. Contact costs 14 health per attack.
+- The energy pulse has a seven-second cooldown and cannot pass through walls.
+- The map is revealed as you explore, but core and gate locations are visible from the start.
+- The seed displayed in the HUD lets you reproduce the same maze.
 
-## คอมไพล์ด้วยตัวเอง
+## Build manually
 
-เปิด Terminal ที่โฟลเดอร์โปรเจกต์แล้วใช้คำสั่ง:
+Open a terminal in the project folder and run:
 
 ```powershell
 gcc -std=c11 -O2 -g -Wall -Wextra -Wpedantic src/main.c src/game.c src/render.c src/platform_win.c src/tests.c -o voidcast.exe -lm -lgdi32 -luser32
 .\voidcast.exe --window
 ```
 
-หรือใช้ `.\voidcast.exe --seed 42` เพื่อเล่นแผนที่หมายเลข 42 ใน Terminal ปัจจุบัน
-โปรแกรมใช้ Windows API สำหรับคีย์บอร์ด เวลา และ console; GDI ใช้เฉพาะส่งออกภาพ BMP
-ตัวเกมเป็น C ล้วน แต่ส่วนเชื่อมระบบนี้ทำให้เวอร์ชันปัจจุบันรองรับ **Windows เท่านั้น**
+Alternatively, run `.\voidcast.exe --seed 42` to play maze seed 42 in the current terminal. The program uses the Windows API for keyboard input, timing, and console output; GDI is used only for exporting BMP images. The game itself is pure C, but these platform interfaces mean the current version supports **Windows only**.
 
-## โครงสร้างโค้ด
+## Source layout
 
-| ไฟล์ | หน้าที่ |
+| File | Purpose |
 |---|---|
-| `src/main.c` | จุดเริ่มต้นโปรแกรม, options, game loop, เปลี่ยนหน้าเกม |
-| `src/game.c` / `game.h` | สุ่มแผนที่, เดินและชน, BFS ไล่ตาม, กุญแจ, pulse, เงื่อนไขชนะ/แพ้ |
-| `src/render.c` / `render.h` | DDA raycasting, sprites, สี, แผนที่, HUD และเมนู |
-| `src/platform_win.c` / `platform.h` | รับปุ่ม, เวลา, ส่งภาพ ANSI, คืนค่า Terminal เมื่อจบ |
-| `src/tests.c` | ชุดทดสอบอัตโนมัติที่เขียนด้วย C |
-| `.vscode/` | ตั้งค่าคอมไพล์, IntelliSense และ task เปิดเกม |
+| `src/main.c` | Program entry point, command-line options, game loop, and state transitions |
+| `src/game.c` / `src/game.h` | Maze generation, movement and collision, BFS enemy tracking, energy cores, pulse, and win/loss rules |
+| `src/render.c` / `src/render.h` | Sprites, colors, map, HUD, menus, and rendering using raycasting |
+| `src/platform_win.c` / `src/platform.h` | Keyboard input, timing, ANSI output, and terminal restoration on exit |
+| `src/tests.c` | Automated tests written in C |
+| `.vscode/` | Build, IntelliSense, and run-task configuration |
 
-อยากแก้เกมให้เริ่มที่ `game.h`: ขนาดแผนที่, จำนวนแกน/ศัตรู และเวลาเริ่มต้น
-ข้อความ HUD และ artwork บางส่วนออกแบบไว้สำหรับ 3 แกน จึงควรแก้ให้ตรงกันหากเปลี่ยนจำนวน
-ปรับสีได้ที่ `render_colors` ใน `render.c`
+To modify the game, start with `src/game.h` for map dimensions, the number of cores and enemies, and the starting time. Some HUD text and artwork assume three cores, so update those as well if you change the count. Colors can be adjusted in `render_colors` in `src/render.c`.
 
-## ตรวจสอบและส่งออกภาพ
+## Test and export images
 
 ```powershell
 .\voidcast.exe --self-test
@@ -90,16 +76,14 @@ gcc -std=c11 -O2 -g -Wall -Wextra -Wpedantic src/main.c src/game.c src/render.c 
 .\voidcast.exe --seed 42 --title --capture title.bmp
 ```
 
-หรือใช้ task `VOIDCAST: Test` ใน VS Code
-ชุดทดสอบครอบคลุมแผนที่ 128 seed, การชน, รังสี, การเก็บแกน, เวลา, pause,
-คลื่นพลังงาน, ชนะ/แพ้, การเดินจนจบ 12 แผนที่, การไล่ตาม 16 แผนที่ และขนาดหน้าจอต่าง ๆ
-การทดสอบเส้นทางเดินจนจบหยุดศัตรูไว้ เพื่อแยกตรวจการเข้าถึงเป้าหมายจากความยากการต่อสู้
+You can also run the `VOIDCAST: Test` task in VS Code. The test suite covers 128 maze seeds, collision, raycasting, core collection, timing, pausing, the energy pulse, win/loss conditions, paths through 12 mazes, enemy pursuit in 16 mazes, and different screen sizes. The path-to-goal tests freeze enemies so that goal reachability can be checked independently of combat difficulty.
 
-ภาพตัวอย่างที่สร้างไว้ใน `captures/` ใช้ renderer ตัวเดียวกับเกม แล้วแปลงตัวอักษรเป็น BMP
-จึงใช้ดูสีและเลย์เอาต์ได้ แต่ไม่ใช่ภาพถ่ายจากหน้าต่าง Terminal
+Sample images in `captures/` are generated by the same renderer as the game and convert its characters to BMP pixels. They are useful for checking colors and layout, but they are not screenshots of the terminal window.
 
-## สิ่งที่ได้ฝึก
+## What this project practices
 
-`struct`, array สองมิติ, pointer, การแยก `.c`/`.h`, คณิตศาสตร์กล้อง,
-DFS สร้างเขาวงกต, BFS หาเส้นทาง, DDA raycasting, collision, frame timing,
-state machine และการทดสอบแบบ deterministic
+`struct`, two-dimensional arrays, pointers, organizing `.c` and `.h` files, camera math, DFS maze generation, BFS pathfinding, DDA raycasting, collision detection, frame timing, state machines, and deterministic tests.
+
+## Team credits
+
+- Karee yu nai team
